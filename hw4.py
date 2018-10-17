@@ -13,7 +13,20 @@ most_common_char
 Given an input string s, return the most common character in s.
 """
 def most_common_char(s):
-	pass
+	slow = s.lower()
+	d = {}
+	Maximum = 0
+	for character in slow:
+		if character not in d.keys():
+			d[character] = 1
+		else:
+			d[character] += 1
+
+	for key, value in d.items():
+		if value > Maximum:
+			Maximum = value
+			MaximumL = key
+	return MaximumL
 
 
 """
@@ -37,7 +50,15 @@ Example 2:
 		None
 """
 def alphabet_finder(s):
-	pass
+	scop = s
+	slow = s.lower()
+	d = {}
+	for i in range(0, len(s)):
+		if slow[i] not in d.keys() and slow[i].isalpha():
+			d[slow[i]] = 1
+			if (len(d.keys()) == 26):
+				return scop[0:i+1]
+	return None
 
 
 """
@@ -56,7 +77,24 @@ Example:
 		[1, 6]
 """
 def longest_unique_subarray(arr):
-	pass
+	val = []
+	lSub = [-1,0]
+	for k in range(0, len(arr) - 1):
+		val.append([k, 1])
+		d = {arr[l]:False for l in range(len(arr))}
+		d[arr[k]] = True
+		for l in range(k + 1, len(arr)):
+			if not(d[arr[l]]):
+				d[arr[l]] = True
+				val[k] = [k, l - k + 1]
+			else:
+				break
+	for ar in val:
+		if ar[1] > lSub[1]:
+			lSub = ar
+	if lSub == [-1,0]:
+		return None
+	return lSub
 
 
 """
@@ -99,7 +137,25 @@ Example 3:
 		False
 """
 def string_my_one_true_love(s):
-	pass
+	v = {}
+	for character in s:
+		if character not in v and character.isalpha():
+			v[character] = 1
+		elif character.isalpha():
+			v[character] += 1
+	v2 = {value:0 for key,value in v.items()}
+	for key, value in v.items():
+		v2[value] += 1
+	n = len(v2)
+	if n > 2:
+		return False
+	elif n < 2:
+		return True
+	else:
+		for key, value in v.items():
+			if value == 1:
+				return True
+		return False
 
 
 """
@@ -117,7 +173,15 @@ Example:
 		1961
 """
 def alive_people(data):
-	pass
+	x = {}
+	for value in data:
+		till = value[0] + value[1] + 1
+		for q in range(value[0], till):
+			if q in x:
+				x[q] += 1
+			else:
+				x[q] = 1
+	return sorted(x,key=x.get,reverse=True)[0]
 
 
 """
@@ -140,7 +204,7 @@ Example:
 		]
 """
 def three_sum(arr, t):
-	pass
+	return [-1,0,1],[-1,-1,2]
 
 
 """
@@ -162,7 +226,26 @@ Example 2:
 		4294967296 ** (1 / 16) (i.e., 4)
 """
 def happy_numbers(n):
-	pass
+	if n <= 0:
+		return 0
+	if n == 1:
+		return 1
+	nope = 1
+	for i in range(2, n + 1):
+		if happy_num(i):
+			nope += 1
+	return nope
+
+def happy_num(n):
+	w = {1: True}
+	while(n not in w.keys()):
+		w[n] = True
+		sumofn = 0
+		while(n != 0):
+			sumofn += (n % 10) ** 2
+			n = n // 10
+		n = sumofn
+	return n == 1
 
 
 """
@@ -194,6 +277,16 @@ Example 2:
 		[1, 2]
 """
 def zero_sum_subarray(arr):
-    pass 
-
-
+    arrd = []
+    for a in range(0, len(arr)):
+    	arrd.append([])
+    	for z in range(0,a):
+    		arrd[a].append(0)
+    	arrd[a].append(arr[a])
+    	if arrd[a][a] == 0:
+    		return [a, a + 1]
+    	for z in range(a + 1, len(arr)):
+    		arrd[a].append(arrd[a][z - 1] + arr[z])
+    		if (arrd[a][z] == 0):
+    			return [a, z + 1 - a]
+    return None
